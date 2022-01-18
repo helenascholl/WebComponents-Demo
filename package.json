@@ -1,0 +1,13 @@
+{
+  "name": "webcomponents-demo",
+  "version": "1.0.0",
+  "description": "WebComponents Demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "",
+    "dev": ""
+  },
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
