@@ -22,6 +22,8 @@ class HelloComponent extends HTMLElement {
 
     button.addEventListener('click', () => {
       console.log('i was clicked');
+      const event = new CustomEvent('button-clicked', { detail: { text: this.#text } });
+      this.dispatchEvent(event);
     });
   }
 
