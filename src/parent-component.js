@@ -9,15 +9,22 @@ class ParentComponent extends HTMLElement {
     console.log('HelloComponent constructor');
     this.attachShadow({ mode: 'open' });
 
-    for (let i = 0; i < 3; i++) {
-      const child = document.createElement('hello-component');
-      child.setAttribute('text', `Button ${i}`);
-      this.shadowRoot.appendChild(child);
-    }
+    const ul = document.createElement('ul');
+    this.shadowRoot.appendChild(ul);
 
-    this.shadowRoot.addEventListener('button-clicked', e => {
-      console.log('button-clicked', e.detail);
-    });
+    for (let i = 0; i < 3; i++) {
+      const child = document.createElement('list-component');
+      const li = document.createElement('li');
+
+      child.setAttribute('text', `List item ${i}`);
+      child.addEventListener('list-item-clicked', e => {
+        console.log('list-item-clicked', e.detail.text, this);
+        document.getElementById('main').innerText = `${e.detail.text} clicked`;
+      });
+
+      li.appendChild(child);
+      ul.appendChild(li);
+    }
   }
 
 }

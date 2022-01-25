@@ -1,9 +1,7 @@
 import './hello-component.js';
 import './parent-component.js';
+import './list-component.js';
 
 window.addEventListener('DOMContentLoaded', () => {
-  let main = document.getElementById('main');
-  let hello = document.querySelector('hello-component');
+  console.log('DOM content loaded');
 });
-
-console.log('loaded');
