@@ -1,5 +1,7 @@
 class HelloComponent extends HTMLElement {
 
+  #text
+
   static get observedAttributes() {
     return [ 'text' ];
   }
@@ -14,7 +16,8 @@ class HelloComponent extends HTMLElement {
     console.log('connected');
 
     const button = document.createElement('button');
-    button.innerText = 'Click me';
+    button.innerText = this.#text;
+    button.setAttribute('id', 'button')
     this.shadowRoot.appendChild(button);
 
     button.addEventListener('click', () => {
@@ -24,6 +27,12 @@ class HelloComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     console.log(`attribute ${name} changed to ${newValue}`);
+
+    switch (name) {
+      case 'text':
+        this.#text = newValue;
+        break;
+    }
   }
 
 }
