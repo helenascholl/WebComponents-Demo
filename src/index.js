@@ -1,4 +1,5 @@
 import './hello-component.js';
+import './parent-component.js';
 
 window.addEventListener('DOMContentLoaded', () => {
   let button = document.getElementById('button');
