@@ -13,9 +13,13 @@ class HelloComponent extends HTMLElement {
   connectedCallback() {
     console.log('connected');
 
-    const div = document.createElement('div');
-    div.innerHTML = 'Hello World!';
-    this.shadowRoot.appendChild(div);
+    const button = document.createElement('button');
+    button.innerText = 'Click me';
+    this.shadowRoot.appendChild(button);
+
+    button.addEventListener('click', () => {
+      console.log('i was clicked');
+    });
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
