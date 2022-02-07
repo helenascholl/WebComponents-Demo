@@ -15,6 +15,8 @@ class ParentComponent extends HTMLElement {
     super();
     this.attachShadow({mode: 'open'});
 
+    this.createDetailView();
+
     this.download().then(todos => {
       const ul = document.createElement('ul');
 
@@ -23,6 +25,11 @@ class ParentComponent extends HTMLElement {
         const child = document.createElement('todo-component');
 
         child.setAttribute('todo', JSON.stringify(todo));
+        child.addEventListener('todo-component-clicked', e => {
+          this.shadowRoot.getElementById('todo-id').innerText = e.detail.todo.id;
+          this.shadowRoot.getElementById('todo-title').innerText = e.detail.todo.title;
+          this.shadowRoot.getElementById('todo-completed').innerText = e.detail.todo.completed;
+        });
 
         li.appendChild(child);
         ul.appendChild(li);
@@ -30,6 +37,24 @@ class ParentComponent extends HTMLElement {
 
       this.shadowRoot.appendChild(ul);
     });
+  }
+
+  createDetailView() {
+    const detailView = document.createElement('div');
+
+    detailView.innerHTML = `
+    <div>
+      <span>ID: </span><span id="todo-id"></span>
+    </div>
+    <div>
+      <span>Title: </span><span id="todo-title"></span>
+    </div>
+    <div>
+      <span>Completed: </span><span id="todo-completed"></span>
+    </div>
+`;
+
+    this.shadowRoot.appendChild(detailView);
   }
 
 }
