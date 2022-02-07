@@ -1,30 +1,35 @@
+const url = 'https://jsonplaceholder.typicode.com/todos';
+
 class ParentComponent extends HTMLElement {
 
   static get observedElements() {
     return [];
   }
 
+  async download() {
+    const response = await fetch(url);
+    return await response.json();
+  }
+
   constructor() {
     super();
-    console.log('HelloComponent constructor');
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({mode: 'open'});
 
-    const ul = document.createElement('ul');
-    this.shadowRoot.appendChild(ul);
+    this.download().then(todos => {
+      const ul = document.createElement('ul');
 
-    for (let i = 0; i < 3; i++) {
-      const child = document.createElement('list-component');
-      const li = document.createElement('li');
+      for (const todo of todos) {
+        const li = document.createElement('li');
+        const child = document.createElement('todo-component');
 
-      child.setAttribute('text', `List item ${i}`);
-      child.addEventListener('list-item-clicked', e => {
-        console.log('list-item-clicked', e.detail.text, this);
-        document.getElementById('main').innerText = `${e.detail.text} clicked`;
-      });
+        child.setAttribute('todo', JSON.stringify(todo));
 
-      li.appendChild(child);
-      ul.appendChild(li);
-    }
+        li.appendChild(child);
+        ul.appendChild(li);
+      }
+
+      this.shadowRoot.appendChild(ul);
+    });
   }
 
 }
