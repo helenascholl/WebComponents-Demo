@@ -1,3 +1,5 @@
+import TodoService from './todo.service.js';
+
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
 class ParentComponent extends HTMLElement {
@@ -17,26 +19,32 @@ class ParentComponent extends HTMLElement {
 
     this.createDetailView();
 
-    this.download().then(todos => {
-      const ul = document.createElement('ul');
+    const todoService = new TodoService();
 
-      for (const todo of todos) {
-        const li = document.createElement('li');
-        const child = document.createElement('todo-component');
+    todoService.fetchTodos()
+      .then(_ => {
+        todoService.store.todos
+          .subscribe(todos => {
+            const ul = document.createElement('ul');
 
-        child.setAttribute('todo', JSON.stringify(todo));
-        child.addEventListener('todo-component-clicked', e => {
-          this.shadowRoot.getElementById('todo-id').innerText = e.detail.todo.id;
-          this.shadowRoot.getElementById('todo-title').innerText = e.detail.todo.title;
-          this.shadowRoot.getElementById('todo-completed').innerText = e.detail.todo.completed;
-        });
+            for (const todo of todos) {
+              const li = document.createElement('li');
+              const child = document.createElement('todo-component');
 
-        li.appendChild(child);
-        ul.appendChild(li);
-      }
+              child.setAttribute('todo', JSON.stringify(todo));
+              child.addEventListener('todo-component-clicked', e => {
+                this.shadowRoot.getElementById('todo-id').innerText = e.detail.todo.id;
+                this.shadowRoot.getElementById('todo-title').innerText = e.detail.todo.title;
+                this.shadowRoot.getElementById('todo-completed').innerText = e.detail.todo.completed;
+              });
 
-      this.shadowRoot.appendChild(ul);
-    });
+              li.appendChild(child);
+              ul.appendChild(li);
+            }
+
+            this.shadowRoot.appendChild(ul);
+          });
+      });
   }
 
   createDetailView() {
