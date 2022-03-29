@@ -3,7 +3,7 @@ const { produce } = immer;
 
 export default class TodoStore {
 
-  subject = new BehaviorSubject();
+  subject = new BehaviorSubject({});
 
   get todos() {
     return this.subject;
@@ -11,7 +11,7 @@ export default class TodoStore {
 
   set todos(todos) {
     const newTodos = produce(this.subject.value, draft => {
-      draft.todos = todos;
+      draft.values = todos;
     });
 
     this.subject.next(newTodos);

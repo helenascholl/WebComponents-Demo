@@ -1,16 +1,9 @@
 import TodoService from './todo.service.js';
 
-const url = 'https://jsonplaceholder.typicode.com/todos';
-
 class ParentComponent extends HTMLElement {
 
   static get observedElements() {
     return [];
-  }
-
-  async download() {
-    const response = await fetch(url);
-    return await response.json();
   }
 
   constructor() {
@@ -27,7 +20,7 @@ class ParentComponent extends HTMLElement {
           .subscribe(todos => {
             const ul = document.createElement('ul');
 
-            for (const todo of todos) {
+            for (const todo of todos.values) {
               const li = document.createElement('li');
               const child = document.createElement('todo-component');
 
