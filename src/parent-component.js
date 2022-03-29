@@ -14,29 +14,26 @@ class ParentComponent extends HTMLElement {
 
     const todoService = new TodoService();
 
-    todoService.fetchTodos()
-      .then(_ => {
-        todoService.store.todos
-          .subscribe(todos => {
-            const ul = document.createElement('ul');
+    todoService.store.todos
+      .subscribe(todos => {
+        const ul = document.createElement('ul');
 
-            for (const todo of todos.values) {
-              const li = document.createElement('li');
-              const child = document.createElement('todo-component');
+        for (const todo of todos.values) {
+          const li = document.createElement('li');
+          const child = document.createElement('todo-component');
 
-              child.setAttribute('todo', JSON.stringify(todo));
-              child.addEventListener('todo-component-clicked', e => {
-                this.shadowRoot.getElementById('todo-id').innerText = e.detail.todo.id;
-                this.shadowRoot.getElementById('todo-title').innerText = e.detail.todo.title;
-                this.shadowRoot.getElementById('todo-completed').innerText = e.detail.todo.completed;
-              });
-
-              li.appendChild(child);
-              ul.appendChild(li);
-            }
-
-            this.shadowRoot.appendChild(ul);
+          child.setAttribute('todo', JSON.stringify(todo));
+          child.addEventListener('todo-component-clicked', e => {
+            this.shadowRoot.getElementById('todo-id').innerText = e.detail.todo.id;
+            this.shadowRoot.getElementById('todo-title').innerText = e.detail.todo.title;
+            this.shadowRoot.getElementById('todo-completed').innerText = e.detail.todo.completed;
           });
+
+          li.appendChild(child);
+          ul.appendChild(li);
+        }
+
+        this.shadowRoot.appendChild(ul);
       });
   }
 

@@ -6,6 +6,10 @@ export default class TodoService {
 
   store = new TodoStore();
 
+  constructor() {
+    this.fetchTodos();
+  }
+
   async fetchTodos() {
     const response = await fetch(this.baseUrl);
     this.store.todos = await response.json();

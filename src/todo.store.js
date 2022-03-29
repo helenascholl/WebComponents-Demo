@@ -3,7 +3,7 @@ const { produce } = immer;
 
 export default class TodoStore {
 
-  subject = new BehaviorSubject({});
+  subject = new BehaviorSubject({ values: [] });
 
   get todos() {
     return this.subject;
